@@ -4,7 +4,7 @@
       url = "github:NixOS/nixpkgs";
     };
     neovim = {
-      url = "github:neovim/neovim?dir=contrib";
+      url = "github:neovim/neovim/stable?dir=contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -23,7 +23,7 @@
       neovim = neovim.packages.${system}.neovim;
     };
     overlayNeovim = prev: final: {
-      myNeovim = import ./config.nix {
+      myNeovim = import ./myNeovim.nix {
         pkgs = final;
       };
     };
@@ -31,7 +31,6 @@
       inherit system;
       overlays = [ overlayFlakeInputs overlayNeovim ];
   };
-
   in {
     packages.${system}.default = pkgs.neovim;
     apps.${system}.default = {
