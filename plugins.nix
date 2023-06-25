@@ -1,8 +1,26 @@
 {
   pkgs,
+  stdenv,
   ...
 }: (with pkgs.vimPlugins;
   [
+    completion-nvim
+    nvim-cmp
+    cmp-nvim-lsp
+    luasnip
+    vim-nix
+    todo-comments-nvim
+    nvim-tree-lua
+    nvim-web-devicons
+    bufferline-nvim
+    direnv-vim
+    nvim-lspconfig
+    null-ls-nvim
+    telescope-nvim
+    plenary-nvim
+    kanagawa-nvim
+    nvim-gdb
+
     (nvim-treesitter.withPlugins (plugins:
       (with plugins;
         [
@@ -21,20 +39,14 @@
           tree-sitter-haskell
         ])))
 
-      completion-nvim
-      nvim-cmp
-      cmp-nvim-lsp
-      luasnip
-      vim-nix
-      todo-comments-nvim
-      nvim-tree-lua
-      nvim-web-devicons
-      bufferline-nvim
-      direnv-vim
-      nvim-lspconfig
-      null-ls-nvim
-      telescope-nvim
-      plenary-nvim
-      kanagawa-nvim
-      nvim-gdb
+
+    # Plugin configuration
+    (stdenv.mkDerivation {
+      name = "nvim-config";
+      src = ./lua;
+      installPhase = ''
+        mkdir -p $out/lua
+        mv * $out/lua
+      '';
+    })
   ])
