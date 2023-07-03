@@ -4,41 +4,46 @@
   ...
 }: (with pkgs.vimPlugins;
   [
-    completion-nvim
-    nvim-cmp
-    cmp-nvim-lsp
-    luasnip
-    vim-nix
-    todo-comments-nvim
+    # File browser
     nvim-tree-lua
     nvim-web-devicons
+
+    lualine-nvim
     bufferline-nvim
+
+    todo-comments-nvim
+
+    # Direnv
     direnv-vim
+
+    # Colorscheme
+    kanagawa-nvim
+
+    # Autocomplete
+    nvim-cmp
+    cmp-nvim-lsp
+
+    luasnip
+    cmp_luasnip
+
+    # LSP
     nvim-lspconfig
     null-ls-nvim
+    trouble-nvim
+
+    # Fzf
     telescope-nvim
+
+    # tmux
+    vim-tmux-navigator
+
+    # Syntax highlighting
+    vim-nix
+
+    nvim-treesitter.withAllGrammars
+
+    # Misc
     plenary-nvim
-    kanagawa-nvim
-    nvim-gdb
-
-    (nvim-treesitter.withPlugins (plugins:
-      (with plugins;
-        [
-          tree-sitter-python
-          tree-sitter-nix
-          tree-sitter-markdown
-          tree-sitter-cmake
-          tree-sitter-make
-          tree-sitter-json
-          tree-sitter-dockerfile
-          tree-sitter-c
-          tree-sitter-cpp
-          tree-sitter-bash
-          tree-sitter-rust
-          tree-sitter-lua
-          tree-sitter-haskell
-        ])))
-
 
     # Plugin configuration
     (stdenv.mkDerivation {
