@@ -9,10 +9,10 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
-    luaFile = pkgs.callPackage ./lua.nix {};
+    #luaFile = pkgs.callPackage ./lua.nix {};
     plugins = pkgs.callPackage ./plugins.nix {};
     wrapNeovim = pkgs.callPackage ./wrapper.nix { 
-      inherit luaFile plugins;
+      inherit plugins;
      };
 
   in {

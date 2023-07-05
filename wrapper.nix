@@ -7,7 +7,6 @@
   pkgs,
   writeText,
   plugins ? [],
-  luaFile,
   neovim-unwrapped,
   unwrappedTarget ? neovim-unwrapped,
   extraLuaPackages ? (_: []),
@@ -18,8 +17,24 @@
   vimAlias ? true,
   ...
 }: let
+  #vim-config = callPackage ./vim/config.nix { };
+  lua-config = callPackage ./lua/config.nix { };
 
-  vimConfig = ''luafile ${luaFile}'';
+  vimConfig = ''
+    lua <<EOF
+      -- Allow imports from common locations for some packages.
+      -- This is required for things like lua_ls to work.
+      local runtime_path = vim.split(package.path, ";")
+      table.insert(runtime_path, "lua/?.lua")
+      table.insert(runtime_path, "lua/?/init.lua")
+    EOF
+
+    " Custom VIML Config.
+
+    " Custom Lua Config.
+    ${lua-config}
+  '';
+  '';
 
   extraBin = (with pkgs; [ 
      clang-tools
