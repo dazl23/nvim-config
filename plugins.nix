@@ -44,14 +44,4 @@
 
     # Misc
     plenary-nvim
-
-    # Plugin configuration
-    (stdenv.mkDerivation {
-      name = "nvim-config";
-      src = ./lua;
-      installPhase = ''
-        mkdir -p $out/lua
-        mv * $out/lua
-      '';
-    })
   ])

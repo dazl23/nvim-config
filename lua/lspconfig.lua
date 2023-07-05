@@ -75,13 +75,6 @@ luasnip.config.setup {}
 
 local cmp = require("cmp")
 
-cmp.setup({
-  mapping = {
-    ...
-     ...
-  }
-})
-
 cmp.setup {
   snippet = {
     expand = function(args)

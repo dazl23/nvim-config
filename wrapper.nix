@@ -1,26 +1,57 @@
-{ 
-  callPackage,
-  buildPackages,
-  wrapNeovimUnstable,
-  neovimUtils,
-  lib,
-  pkgs,
-  writeText,
-  plugins ? [],
-  neovim-unwrapped,
-  unwrappedTarget ? neovim-unwrapped,
-  extraLuaPackages ? (_: []),
-  extraPython3Packages ? (_: []),
-  withPython3 ? true,
-  withRuby ? false,
-  viAlias ? true,
-  vimAlias ? true,
-  ...
-}: let
-  #vim-config = callPackage ./vim/config.nix { };
+{ lib
+, pkgs
+, neovim-unwrapped
+, wrapNeovimUnstable
+, neovimUtils
+, callPackage
+, makeWrapper
+, lua51Packages
+, ...
+}:
+
+let
+  all-plugins = callPackage ./plugins.nix { };
   lua-config = callPackage ./lua/config.nix { };
 
-  vimConfig = ''
+  extra-packages = with pkgs; [
+    pyright
+    black
+
+    rnix-lsp
+    alejandra
+
+    clang-tools
+
+    rust-analyzer
+    rustfmt
+    gopls
+
+    tree-sitter
+  ];
+  extra-make-wrapper-args = ''--suffix PATH : "${lib.makeBinPath extra-packages}"'';
+
+  default-plugin = {
+    type = "viml";
+    plugin = null;
+    config = "";
+    optional = false;
+    runtime = { };
+  };
+
+  # Plugins can be either a package or a Neovim plugin attribute set.
+  # We need to normalize them such that they are all plugin attribute sets.
+  normalized-plugins =
+    builtins.map
+      (plugin: default-plugin // (if (plugin ? plugin) then plugin else { inherit plugin; }))
+      (all-plugins);
+
+  suppress-not-viml-config = plugin:
+    if plugin.type != "viml" then
+      plugin // { config = ""; }
+    else
+      plugin;
+
+  custom-rc = ''
     lua <<EOF
       -- Allow imports from common locations for some packages.
       -- This is required for things like lua_ls to work.
@@ -29,54 +60,25 @@
       table.insert(runtime_path, "lua/?/init.lua")
     EOF
 
-    " Custom VIML Config.
 
     " Custom Lua Config.
     ${lua-config}
   '';
-  '';
 
-  extraBin = (with pkgs; [ 
-     clang-tools
-     rnix-lsp
-     alejandra
-     black
-     rustfmt
-     pyright
-     rust-analyzer
-    ]);
-  
-  binPath = lib.makeBinPath extraBin;
-
-  neovimConfig = neovimUtils.makeNeovimConfig {
-    inherit plugins extraPython3Packages withPython3 withRuby viAlias vimAlias;
-    customRC = vimConfig;
+  neovim-config = neovimUtils.makeNeovimConfig {
+    viAlias = true;
+    vimAlias = true;
+    plugins = builtins.map suppress-not-viml-config normalized-plugins;
+    customRC = custom-rc;
   };
 
-  luaPackages = unwrappedTarget.lua.pkgs;
-  resolvedExtraLuaPackages = extraLuaPackages luaPackages;
+  neovim-config-with-wrapper-args = neovim-config // {
+    wrapRc = true;
+    wrapperArgs =
+      (lib.escapeShellArgs neovim-config.wrapperArgs) + " "
+        + extra-make-wrapper-args;
+  };
 
-  makeWrapperArgsFromPackages = op:
-  lib.lists.foldr
-  (next: prev: prev ++ [";" (op next)]) []
-  resolvedExtraLuaPackages;
-
-  extraMakeWrapperLuaCArgs =
-    lib.optionals (resolvedExtraLuaPackages != [])
-      (["--suffix" "LUA_CPATH" ";"]
-      ++ (makeWrapperArgsFromPackages luaPackages.getLuaCPath));
-
-  extraMakeWrapperLuaArgs =
-    lib.optionals (resolvedExtraLuaPackages != [])
-	(["--suffix" "LUA_PATH" ";"]
-	 ++ (makeWrapperArgsFromPackages luaPackages.getLuaPath));
-
-wrapperArgs =
-	neovimConfig.wrapperArgs
-	++ extraMakeWrapperLuaArgs
-	++ extraMakeWrapperLuaCArgs
-	++ ["--suffix" "PATH" ":" "${binPath}"];
-
+  wrapped-neovim = wrapNeovimUnstable neovim-unwrapped neovim-config-with-wrapper-args;
 in
-  wrapNeovimUnstable unwrappedTarget (neovimConfig
-			// {inherit wrapperArgs;})
+wrapped-neovim

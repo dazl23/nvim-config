@@ -1,6 +1,5 @@
 
 local telescope = require("telescope")
-local api = require ("telscope.builtin")
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -16,10 +15,10 @@ require("telescope").setup {
 }
 
 
-vim.keymap.set("n", "ff", require("api").find_files, { desc = "Find File" })
+vim.keymap.set("n", "ff", require("telescope.builtin").find_files, { desc = "Find File" })
 
-vim.keymap.set("n", "fr", require("api").oldfiles, { desc = "Recent File" })
+vim.keymap.set("n", "fr", require("telescope.builtin").oldfiles, { desc = "Recent File" })
 
-vim.keymap.set("n", "fb", require("api").buffers, { desc = "[ ] Find existing buffers" })
+vim.keymap.set("n", "fb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 
-vim.keymap.set("n", "fg", require("api").live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "fg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })

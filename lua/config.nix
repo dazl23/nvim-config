@@ -8,10 +8,6 @@
 
 with lib;
 let
-  # Usage:
-  # mkLuaConfig ./some-file.lua {
-  #   MY_ARG = "hello-world";
-  # }
   mkLuaConfig = file: args:
     let module =
       substituteAll
@@ -21,11 +17,6 @@ let
     in
     "luafile ${module}";
 
-  # Usage:
-  # mkLuaConfigs [
-  #   ./some-file.lua
-  #   { file = ./some-other.lua; options = { MY_ARG = "hello-world"; }; }
-  # ]
   mkLuaConfigs = files:
     lib.concatMapStringsSep "\n"
       (file:
