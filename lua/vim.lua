@@ -1,28 +1,57 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-vim.o.hlsearch = false
-vim.wo.number = true
-vim.o.mouse = ''
-vim.o.clipboard = 'unnamedplus'
-vim.o.breakindent = true
-vim.o.undofile = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.tabstop = 2
-vim.o.smartindent = true
-vim.o.smarttab = true
-vim.o.expandtab = true
-vim.wo.signcolumn = 'yes'
+-- alias for this file
+local o = vim.o
 
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-vim.o.completeopt = 'menuone,noselect'
+o.mouse = ""
 
-vim.o.termguicolors = true
+o.clipboard = "unnamedplus"
+
+o.breakindent = true
+o.undofile = true
+
+o.wildmenu = true
+
+-- buffers can be hidden if modified
+o.hidden = true
+
+-- more natural splits
+o.splitbelow = true
+o.splitright = true
+
+-- better searching
+o.ignorecase = true
+o.smartcase = true
+o.hlsearch = true -- highlight search targets
+o.incsearch = true
+
+-- tabs
+o.tabstop = 4
+o.softtabstop = 4 -- see 4 spaces as a tab
+o.expandtab = true -- convert tabs to whitespace
+o.shiftwidth = 4 -- autoident width
+o.autoindent = true -- indent newlines to the same as previous lines
+
+-- line numbers and lines
+o.number = true
+o.relativenumber = true
+o.cursorline = true -- highlight line cursor is on
+o.cursorlineopt = "both"
+o.signcolumn = "yes" -- shows signs in the number column
+o.numberwidth = 2
+
+o.ttyfast = true -- speeds up scrolling
+o.showmode = true
+o.magic = true -- :h magic
+
+o.updatetime = 250
+o.timeout = true
+o.timeoutlen = 300
+
+o.completeopt = 'menuone,noselect'
+
+o.termguicolors = true
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
