@@ -16,16 +16,12 @@ let
   extra-packages = with pkgs; [
     pyright
     black
-
     rnix-lsp
     alejandra
-
     clang-tools
-
     rust-analyzer
     rustfmt
     gopls
-
     tree-sitter
   ];
   extra-make-wrapper-args = ''--suffix PATH : "${lib.makeBinPath extra-packages}"'';

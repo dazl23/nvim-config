@@ -53,7 +53,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
 	'rnix',
 	'rust_analyzer',
-  'pyright',
+    'gopls',
+    'pyright',
 	'hls',
 	'clangd',
 }
