@@ -20,6 +20,7 @@ let
     alejandra
     clang-tools
     rust-analyzer
+    haskell-language-server
     rustfmt
     gopls
     tree-sitter
