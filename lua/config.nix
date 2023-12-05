@@ -29,8 +29,11 @@ let
 in
 mkLuaConfigs [
   ./vim.lua
-  ./treesitter.lua
+  ./theme.lua
+  ./which-key.lua
   ./telescope.lua
   ./lspconfig.lua
+  ./cmp.lua
+  ./treesitter.lua
 ]
 

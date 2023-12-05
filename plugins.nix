@@ -4,17 +4,11 @@
   ...
 }: (with pkgs.vimPlugins;
   [
-    # File browser
-    nvim-tree-lua
-    nvim-web-devicons
-
-    lualine-nvim
-    bufferline-nvim
-
     todo-comments-nvim
 
     # Direnv
     direnv-vim
+    telescope-fzf-native-nvim
 
     # Colorscheme
     kanagawa-nvim
@@ -34,13 +28,30 @@
     # Fzf
     telescope-nvim
 
-    # tmux
-    vim-tmux-navigator
-
     # Syntax highlighting
     vim-nix
 
-    nvim-treesitter.withAllGrammars
+    (nvim-treesitter.withPlugins (plugins:
+      (with plugins;
+        [
+          tree-sitter-yaml
+          tree-sitter-toml
+          tree-sitter-regex
+          tree-sitter-python
+          tree-sitter-nix
+          tree-sitter-markdown
+          tree-sitter-make
+          tree-sitter-json
+          tree-sitter-comment
+          tree-sitter-cmake
+          tree-sitter-c
+          tree-sitter-cpp
+          tree-sitter-bash
+          tree-sitter-rust
+          tree-sitter-haskell
+        ])))
+
+    which-key-nvim
 
     # Misc
     plenary-nvim
