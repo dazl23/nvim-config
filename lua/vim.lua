@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.keymap.set('n', '<Leader>t', '<Cmd>enew<CR>')
-vim.keymap.set('n', '<S-x>', utils.buffer_close)
+vim.keymap.set('n', '<S-x>', '<Cmd>bd<CR>')
 vim.keymap.set('n', '<S-k>', '<Cmd>bnext<CR>')
 vim.keymap.set('n', '<S-j>', '<Cmd>bprevious<CR>')
 
