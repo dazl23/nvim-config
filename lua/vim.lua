@@ -62,6 +62,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+
+
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -71,3 +73,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+vim.keymap.set('n', '<Leader>t', '<Cmd>enew<CR>')
+vim.keymap.set('n', '<S-x>', utils.buffer_close)
+vim.keymap.set('n', '<S-k>', '<Cmd>bnext<CR>')
+vim.keymap.set('n', '<S-j>', '<Cmd>bprevious<CR>')
+
+vim.keymap.set('n', '<Leader>1', '<Cmd>BufferLineGoToBuffer 1<CR>')
+vim.keymap.set('n', '<Leader>2', '<Cmd>BufferLineGoToBuffer 2<CR>')
+vim.keymap.set('n', '<Leader>3', '<Cmd>BufferLineGoToBuffer 3<CR>')
+vim.keymap.set('n', '<Leader>4', '<Cmd>BufferLineGoToBuffer 4<CR>')
+vim.keymap.set('n', '<Leader>5', '<Cmd>BufferLineGoToBuffer 5<CR>')
+vim.keymap.set('n', '<Leader>6', '<Cmd>BufferLineGoToBuffer 6<CR>')
+vim.keymap.set('n', '<Leader>7', '<Cmd>BufferLineGoToBuffer 7<CR>')
+vim.keymap.set('n', '<Leader>8', '<Cmd>BufferLineGoToBuffer 8<CR>')
+vim.keymap.set('n', '<Leader>9', '<Cmd>BufferLineGoToBuffer 9<CR>')
